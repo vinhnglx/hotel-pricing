@@ -1,38 +1,28 @@
 import React from 'react';
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import withMainLayout from './layout/withMainLayout';
+import HotelListContainer from './containers/HotelListContainer';
+import HotelDetailContainer from './containers/HotelDetailContainer';
 import './assets/App.css';
 
-// import logo from './assets/logo.svg';
-
-const { Header, Content } = Layout;
-function App() {
+const App = () => {
   return (
-    <Layout className="layout">
-      <Header>
-        <div className="logo" />
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          defaultSelectedKeys={['2']}
-          style={{ lineHeight: '64px' }}
-        >
-          <Menu.Item key="1">nav 1</Menu.Item>
-          <Menu.Item key="2">nav 2</Menu.Item>
-          <Menu.Item key="3">nav 3</Menu.Item>
-        </Menu>
-      </Header>
-      <Content style={{ padding: '0 50px' }}>
-        <Breadcrumb style={{ margin: '16px 0' }}>
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>List</Breadcrumb.Item>
-          <Breadcrumb.Item>App</Breadcrumb.Item>
-        </Breadcrumb>
-        <div style={{ background: '#fff', padding: 24, minHeight: 280 }}>
-          Content
-        </div>
-      </Content>
-    </Layout>
+    <div>
+      <BrowserRouter>
+        <Switch>
+          <Route
+            path="/hotels/:id"
+            component={withMainLayout(HotelDetailContainer)}
+          />
+          <Route
+            default
+            path="/"
+            component={withMainLayout(HotelListContainer)}
+          />
+        </Switch>
+      </BrowserRouter>
+    </div>
   );
-}
+};
 
 export default App;

@@ -1,13 +1,29 @@
-@import '~antd/dist/antd.css';
-
-.ant-layout {
-  height: 100vh;
-}
-
 .logo {
   width: 120px;
   height: 31px;
   background: rgba(255, 255, 255, 0.2);
   margin: 16px 24px 16px 0;
   float: left;
+}
+
+.nav-menu {
+  line-height: 64px;
+}
+
+.layout-content {
+  background-color: #fff;
+  padding: 24px;
+  /* min-height: 80vh; */
+}
+
+.ant-carousel .slick-slide {
+  text-align: center;
+  height: 160px;
+  line-height: 160px;
+  background: #364d79;
+  overflow: hidden;
+}
+
+.ant-carousel .slick-slide h3 {
+  color: #fff;
 }
