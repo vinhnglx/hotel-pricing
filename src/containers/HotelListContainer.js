@@ -1,5 +1,7 @@
 import React from 'react';
 import { List, Card, Row, Col, Rate, Badge } from 'antd';
+import withDataFetching from '../hoc/withDataFetching';
+// import DataFetching from '../gateways/DataFetching';
 
 const listData = [];
 for (let i = 0; i < 10; i++) {
@@ -15,24 +17,29 @@ for (let i = 0; i < 10; i++) {
 }
 
 const HotelListContainer = props => {
+  const {
+    store: { data }
+  } = props;
+
+  console.log('data');
   return (
     <List
       itemLayout="vertical"
       size="large"
-      dataSource={listData}
+      dataSource={data}
       renderItem={item => (
         <List.Item
-          key={item.title}
+          key={item.id}
           actions={[
             <Badge count={item.rating} />,
             <span>Location: {item.address}</span>
           ]}
-          extra={<img width={272} alt="logo" src={item.thumbnail} />}
+          extra={<img width={272} alt="logo" src={item.photo} />}
         >
           <List.Item.Meta
             title={
-              <a href={item.href}>
-                <p className="mb-0">{item.title}</p>
+              <a href={`/hotels/${item.id}`}>
+                <p className="mb-0">{item.name}</p>
                 <Rate disabled defaultValue={item.stars} />
               </a>
             }
@@ -75,4 +82,5 @@ const HotelListContainer = props => {
   );
 };
 
-export default HotelListContainer;
+export default withDataFetching(HotelListContainer);
+// export default enhance(HotelListContainer);

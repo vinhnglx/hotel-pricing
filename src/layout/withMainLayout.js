@@ -9,6 +9,8 @@ const withMainLayout = Component => props => {
     const [currency, setCurrency] = useState('$');
 
     const handleCurrencySelect = currencySym => {
+      localStorage.removeItem('currency');
+      localStorage.setItem('currency', currencySym);
       return setCurrency(currencySym);
     };
 
@@ -21,10 +23,14 @@ const withMainLayout = Component => props => {
             theme="dark"
             mode="horizontal"
             className="fl-r nav-menu"
-            defaultSelectedKeys={[currency]}
+            defaultSelectedKeys={[localStorage.getItem('currency') || currency]}
           >
             <SubMenu
-              title={<span className="submenu-title-wrapper">{currency}</span>}
+              title={
+                <span className="submenu-title-wrapper">
+                  {localStorage.getItem('currency') || currency}
+                </span>
+              }
             >
               <Menu.Item key="$">$ U.S. Dollars</Menu.Item>
               <Menu.Item key="S$">S$ Singapore Dollars</Menu.Item>
@@ -36,7 +42,10 @@ const withMainLayout = Component => props => {
         </Header>
         <Content className="pd-l-50 pd-r-50">
           <div className="layout-content">
-            <WrappedComponent {...newProps} />
+            <WrappedComponent
+              {...newProps}
+              currency={localStorage.getItem('currency') || currency}
+            />
           </div>
         </Content>
       </Layout>
