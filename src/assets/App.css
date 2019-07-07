@@ -27,3 +27,18 @@
 .ant-carousel .slick-slide h3 {
   color: #fff;
 }
+
+.ant-card-head-title {
+  text-transform: capitalize;
+}
+
+.ps-r {
+  position: relative;
+}
+
+.tooltip {
+  font-size: 11px;
+  position: absolute;
+  /* top: -5px; */
+  margin-left: 5px;
+}
