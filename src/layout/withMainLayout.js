@@ -11,7 +11,7 @@ const withMainLayout = Component => props => {
     const handleCurrencySelect = currencySym => {
       localStorage.removeItem('currency');
       localStorage.setItem('currency', currencySym);
-      return setCurrency(currencySym);
+      setCurrency(currencySym);
     };
 
     return (

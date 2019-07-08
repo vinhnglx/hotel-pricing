@@ -5,7 +5,10 @@ import withDataFetching from '../hoc/withDataFetching';
 import {
   sortPricing,
   taxInclusive,
-  MAX_PRICING_ITEM
+  MAX_PRICING_ITEM,
+  currencyFormatter,
+  currenciesList,
+  roundedPricing
 } from '../utilities/helper';
 
 const HotelListContainer = props => {
@@ -61,28 +64,55 @@ const HotelListContainer = props => {
               {take(Object.keys(sortedPricing), MAX_PRICING_ITEM).map(key => {
                 const hotelPrice = sortedPricing[key];
                 const maxPrice = item.maxCompetitor;
+                const currencyCode = currenciesList[`${currency}`];
+
+                let priceFormatted;
+                let maxPriceFormatted;
+                let savingPercentage;
+
+                if (hotelPrice) {
+                  priceFormatted = roundedPricing(hotelPrice, currencyCode);
+                }
+
+                if (maxPrice) {
+                  maxPriceFormatted = roundedPricing(
+                    item.maxCompetitor,
+                    currencyCode
+                  );
+                }
+
+                if (priceFormatted < maxPriceFormatted) {
+                  savingPercentage =
+                    100 - (priceFormatted / maxPriceFormatted) * 100;
+                }
 
                 return (
                   <Col span={4} key={key}>
                     <Card
+                      className={
+                        key === 'Hotel' && priceFormatted < maxPriceFormatted
+                          ? 'highlight ps-r'
+                          : 'ps-r'
+                      }
                       size="small"
                       title={key}
                       bordered={false}
-                      className="ps-r"
                     >
-                      {(hotelPrice && `${currency}${hotelPrice}`) ||
+                      {(priceFormatted &&
+                        `${currencyFormatter(priceFormatted, currencyCode)}`) ||
                         'Rate Unavailable'}
-                      {maxPrice && key === 'Hotel' && hotelPrice < maxPrice && (
-                        <span className="tooltip">
-                          <Tooltip
-                            placement="right"
-                            title={`Saving ${100 -
-                              (hotelPrice / maxPrice) * 100}%`}
-                          >
-                            <Icon type="question-circle-o" />
-                          </Tooltip>
-                        </span>
-                      )}
+                      {maxPrice &&
+                        key === 'Hotel' &&
+                        priceFormatted < maxPriceFormatted && (
+                          <span className="tooltip">
+                            <Tooltip
+                              placement="right"
+                              title={`Saving ${Math.floor(savingPercentage)}%`}
+                            >
+                              <Icon type="question-circle-o" />
+                            </Tooltip>
+                          </span>
+                        )}
                     </Card>
                   </Col>
                 );

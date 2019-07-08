@@ -14,10 +14,10 @@ import DataStore from '../stores/DataStore';
 
 const withDataFetching = Component => props => {
   const currency = localStorage.getItem('currency') || props.currency;
-  const enhance = WrappedComponent => newProps => {
-    const dataGateway = DataGateway();
-    const dataStore = DataStore(dataGateway);
+  const dataGateway = DataGateway();
+  const dataStore = DataStore(dataGateway);
 
+  const enhance = WrappedComponent => newProps => {
     const [hotels, setHotels] = useState([]);
     const [prices, setPrices] = useState([]);
     const [store, setStore] = useState({ loading: true, data: [] });
@@ -32,7 +32,7 @@ const withDataFetching = Component => props => {
     // Get Prices
     useEffect(() => {
       dataStore
-        .fetchPrices(PRICE_DATA_URL, currenciesList[currency])
+        .fetchPrices(PRICE_DATA_URL, currenciesList[`${currency}`])
         .then(response => setPrices(response));
     }, []);
 

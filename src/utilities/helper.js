@@ -17,9 +17,48 @@ export const HOTELS_DATA_URL =
   'https://5c08f37bea3172001389ccbd.mockapi.io/hotels/tokyo';
 
 export const PRICE_DATA_URL =
-  'http://5c08f37bea3172001389ccbd.mockapi.io/hotels/tokyo/1';
+  'https://5c08f37bea3172001389ccbd.mockapi.io/hotels/tokyo/1';
 
 export const MAX_PRICING_ITEM = 6;
+
+// Rounded pricing
+export const roundedPricing = (price, currency) => {
+  return currency === 'KRW'
+    ? Math.ceil(price / 100) * 100
+    : Number(price.toFixed());
+};
+
+// Currency format
+export const currencyFormatter = (roundedPrice, currency) => {
+  let formattedPrice;
+  switch (currency) {
+    case 'KRW':
+      formattedPrice = new Intl.NumberFormat('ko-KR', {
+        style: 'currency',
+        currency: 'KRW'
+      }).format(roundedPrice);
+      break;
+    case 'CNY':
+      formattedPrice = new Intl.NumberFormat('zh-CN', {
+        style: 'currency',
+        currency: 'CNY'
+      }).format(roundedPrice);
+      break;
+    case 'SGD':
+      formattedPrice = new Intl.NumberFormat('zh-SG', {
+        style: 'currency',
+        currency: 'SGD',
+        currencyDisplay: 'code'
+      }).format(roundedPrice);
+      break;
+    default:
+      formattedPrice = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USG'
+      }).format(roundedPrice);
+  }
+  return formattedPrice;
+};
 
 // Remove prices if the hotel do not exist
 export const filterPricesWithHotelIds = (prices, hotelIds) => {
