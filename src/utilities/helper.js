@@ -1,9 +1,5 @@
 // eslint-disable-next-line import/prefer-default-export
 
-// import values from 'lodash/values';
-// import filter from 'lodash/filter';
-// import orderBy from 'lodash/orderBy';
-
 import _ from 'lodash';
 
 export const currenciesList = {
@@ -35,26 +31,30 @@ export const currencyFormatter = (roundedPrice, currency) => {
     case 'KRW':
       formattedPrice = new Intl.NumberFormat('ko-KR', {
         style: 'currency',
-        currency: 'KRW'
+        currency: 'KRW',
+        minimumFractionDigits: '0'
       }).format(roundedPrice);
       break;
     case 'CNY':
       formattedPrice = new Intl.NumberFormat('zh-CN', {
         style: 'currency',
-        currency: 'CNY'
+        currency: 'CNY',
+        minimumFractionDigits: '0'
       }).format(roundedPrice);
       break;
     case 'SGD':
       formattedPrice = new Intl.NumberFormat('zh-SG', {
         style: 'currency',
         currency: 'SGD',
-        currencyDisplay: 'code'
+        currencyDisplay: 'code',
+        minimumFractionDigits: '0'
       }).format(roundedPrice);
       break;
     default:
       formattedPrice = new Intl.NumberFormat('en-US', {
         style: 'currency',
-        currency: 'USG'
+        currency: 'USD',
+        minimumFractionDigits: '0'
       }).format(roundedPrice);
   }
   return formattedPrice;
@@ -76,10 +76,10 @@ export const matchingHotelsWithPrices = (hotels, prices) => {
   }, {});
 
   // Add maxCompetitor pricing if there is
-  // BUG: If there is tax then values must be calculated with tax before get max
+  // if there is tax then need to sum each competitor with tax before get max
   const updatedData = _.forOwn(comb, (value, key) => {
     let maxCompetitor;
-    // let newValue;
+
     if (value.competitors) {
       const taxesFees = value.taxes_and_fees;
       const valuesCompetitors = taxesFees
@@ -90,7 +90,6 @@ export const matchingHotelsWithPrices = (hotels, prices) => {
         : _.values(value.competitors);
       maxCompetitor = _.max(valuesCompetitors);
     }
-    // value.maxCom = maxCompetitor;
     const newValue = value;
     newValue.maxCompetitor = maxCompetitor;
 
