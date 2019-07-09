@@ -2,6 +2,13 @@
 
 A simplified version of a hotel result display upon getting the data after a RESTful API call to the backend.
 
+## Technical stacks
+
+- ReactJS (Hooks, HOC)
+- Jest, Puppeteer
+- Ant Design
+- Lodash, Axios
+
 ## Getting Started
 
 Follow steps to start the app
