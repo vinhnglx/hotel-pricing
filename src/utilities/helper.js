@@ -15,7 +15,11 @@ export const HOTELS_DATA_URL =
 export const PRICE_DATA_URL =
   'https://5c08f37bea3172001389ccbd.mockapi.io/hotels/tokyo/1';
 
+export const DEFAULT_CURRENCY = '$';
+
 export const MAX_PRICING_ITEM = 6;
+
+export const SORTING_ORDER = ['price', 'stars', 'rating'];
 
 // Rounded pricing
 export const roundedPricing = (price, currency) => {
@@ -76,7 +80,7 @@ export const matchingHotelsWithPrices = (hotels, prices) => {
   }, {});
 
   // Add maxCompetitor pricing if there is
-  // if there is tax then need to sum each competitor with tax before get max
+  // if there is tax then need to sum each competitor with tax before getting max competitor
   const updatedData = _.forOwn(comb, (value, key) => {
     let maxCompetitor;
 
@@ -99,7 +103,7 @@ export const matchingHotelsWithPrices = (hotels, prices) => {
   return _.values(updatedData);
 };
 
-// Hotel sorting by prices
+// Hotel sorting by price and stars and rating
 export const sortHotels = hotels => {
   const nonPricingHotels = _.filter(hotels, el => {
     return !el.price;
@@ -109,8 +113,8 @@ export const sortHotels = hotels => {
     _.filter(hotels, el => {
       return el.price;
     }),
-    ['price'],
-    ['desc']
+    SORTING_ORDER,
+    ['desc', 'desc', 'desc']
   );
 
   return pricingHotelsDesc.concat(nonPricingHotels);

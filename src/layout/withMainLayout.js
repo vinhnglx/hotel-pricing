@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Layout, Menu } from 'antd';
+import { DEFAULT_CURRENCY } from '../utilities/helper';
 
 const { Header, Content } = Layout;
 const { SubMenu } = Menu;
 
 const withMainLayout = Component => props => {
-  const [currency, setCurrency] = useState('$');
-
   const handleCurrencySelect = currencySym => {
     localStorage.setItem('currency', currencySym);
-    setCurrency(currencySym);
+    window.location.reload();
   };
+
+  const currencySelect = localStorage.getItem('currency') || DEFAULT_CURRENCY;
 
   return (
     <Layout className="layout">
@@ -21,13 +22,11 @@ const withMainLayout = Component => props => {
           theme="dark"
           mode="horizontal"
           className="fl-r nav-menu"
-          defaultSelectedKeys={[localStorage.getItem('currency') || currency]}
+          defaultSelectedKeys={[currencySelect]}
         >
           <SubMenu
             title={
-              <span className="submenu-title-wrapper">
-                {localStorage.getItem('currency') || currency}
-              </span>
+              <span className="submenu-title-wrapper">{currencySelect}</span>
             }
           >
             <Menu.Item key="$">$ U.S. Dollars</Menu.Item>
@@ -40,10 +39,7 @@ const withMainLayout = Component => props => {
       </Header>
       <Content className="pd-l-50 pd-r-50">
         <div className="layout-content">
-          <Component
-            {...props}
-            currency={localStorage.getItem('currency') || currency}
-          />
+          <Component {...props} currency={currencySelect} />
         </div>
       </Content>
     </Layout>

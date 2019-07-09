@@ -24,4 +24,12 @@ yarn start
 yarn test
 ```
 
-**NOTE**: I am using the [Puppeteer](https://github.com/GoogleChrome/puppeteer) for E2E test, hence please keep the development server running
+## NOTE
+
+- The [helper.js](src/utilities/helper.js) includes
+
+  - all logic functions: pricing round, currency formatter, remove prices without hotel exist, combine hotel and price, sorting order, hotels sorting, price sorting, taxInclusive calculation
+
+  - configuration: supported currenciesList, API endpoints, default currency, max pricing item that want to display on each hotel from index page and sorting order.
+
+- I am using the [Puppeteer](https://github.com/GoogleChrome/puppeteer) for E2E test, hence please keep the development server running before running `yarn test`

@@ -1,11 +1,14 @@
 import puppeteer from 'puppeteer';
 
 describe('HotelListContainer', () => {
-  test('renders a list of hotels', async () => {
-    const browser = await puppeteer.launch({
+  let page;
+  let browser;
+
+  beforeAll(async () => {
+    browser = await puppeteer.launch({
       headless: true
     });
-    const page = await browser.newPage();
+    page = await browser.newPage();
 
     page.emulate({
       viewport: {
@@ -73,7 +76,9 @@ describe('HotelListContainer', () => {
         await request.continue();
       }
     });
+  });
 
+  test('renders a list of hotels', async () => {
     await page.goto('http://localhost:3000/');
     await page.waitForSelector('.ant-list-item');
 
@@ -90,8 +95,11 @@ describe('HotelListContainer', () => {
       const label = await page.evaluate(el => el.innerText, ele);
       hotelNames.push(label);
     }
+  });
 
-    expect(hotelNames).toEqual(['FooBar Hotel', 'BarFoo Hotel']);
+  test('returns hotel price with tax inclusive', async () => {
+    await page.goto('http://localhost:3000/');
+    await page.waitForSelector('.ant-list-item');
 
     const hotelPriceTaxInclusive = await page.$eval(
       'div.ant-card.highlight div.ant-card-body',
@@ -99,6 +107,11 @@ describe('HotelListContainer', () => {
     );
 
     expect(hotelPriceTaxInclusive).toContain('$193');
+  });
+
+  test('return rate unavailable', async () => {
+    await page.goto('http://localhost:3000/');
+    await page.waitForSelector('.ant-list-item');
 
     const hotelRateUnavailable = await page.$eval(
       'div.ant-card div.ant-card-body',
@@ -115,7 +128,9 @@ describe('HotelListContainer', () => {
     }
 
     expect(rates).toEqual(['$192', '$193', '$219', 'Rate Unavailable']);
+  });
 
+  afterAll(() => {
     page.close();
     browser.close();
   });
