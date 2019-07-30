@@ -47,6 +47,7 @@ const HotelPricingComponent = props => {
         return (
           <Col span={4} key={key}>
             <Card
+              data-testid="card-price"
               className={highlightClassName}
               size="small"
               title={key}

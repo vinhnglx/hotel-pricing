@@ -6,7 +6,7 @@ const HotelNameComponent = props => {
   const { hotelName, taxInclusive, hotelStars, hotelId } = props;
 
   return (
-    <a href={`/hotels/${hotelId}`}>
+    <a data-testid="hotel-detail" href={`/hotels/${hotelId}`}>
       <p className="mb-0">
         {hotelName}
         {taxInclusive && (

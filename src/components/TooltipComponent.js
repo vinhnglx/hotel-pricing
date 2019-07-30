@@ -4,7 +4,7 @@ import { Tooltip, Icon } from 'antd';
 const TooltipComponent = props => {
   const { title, iconType } = props;
   return (
-    <span className="tooltip">
+    <span data-testid="tooltip" className="tooltip">
       <Tooltip placement="right" title={title}>
         <Icon type={iconType} />
       </Tooltip>

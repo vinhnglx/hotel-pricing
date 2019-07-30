@@ -9,11 +9,8 @@ export const currenciesList = {
   '₩': 'KRW'
 };
 
-export const HOTELS_DATA_URL =
-  'https://5c08f37bea3172001389ccbd.mockapi.io/hotels/tokyo';
-
-export const PRICE_DATA_URL =
-  'https://5c08f37bea3172001389ccbd.mockapi.io/hotels/tokyo/1';
+export const BASE_API_URL =
+  'https://5c08f37bea3172001389ccbd.mockapi.io/hotels/';
 
 export const DEFAULT_CURRENCY = '$';
 

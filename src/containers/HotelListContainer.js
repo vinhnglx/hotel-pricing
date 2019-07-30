@@ -7,7 +7,8 @@ import { sortPricing, taxInclusive } from '../utilities/helper';
 
 const HotelListContainer = props => {
   const {
-    store: { data },
+    // store: { data },
+    store,
     currency
   } = props;
 
@@ -15,7 +16,7 @@ const HotelListContainer = props => {
     <List
       itemLayout="vertical"
       size="large"
-      dataSource={data}
+      dataSource={store}
       renderItem={item => {
         const sortedPricing = item.taxes_and_fees
           ? taxInclusive(sortPricing(item), item.taxes_and_fees)
